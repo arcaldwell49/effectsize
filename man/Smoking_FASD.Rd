@@ -5,13 +5,11 @@
 \alias{Smoking_FASD}
 \title{Frequency of FASD for Smoking Mothers}
 \format{
-A 1-by-3 table, with a \emph{column} for each diagnosis.
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{data("Smoking_FASD")
+A 1-by-3 table, with a \emph{column} for each diagnosis.\if{html}{\out{<div class="sourceCode r">}}\preformatted{data("Smoking_FASD")
 Smoking_FASD
-#>  FAS PFAS   TD 
-#>   17   11  640
-}\if{html}{\out{</div>}}
+}\if{html}{\out{</div>}}\preformatted{##  FAS PFAS   TD 
+##   17   11  640
+}
 }
 \description{
 Fictional data.

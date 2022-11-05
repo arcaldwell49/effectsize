@@ -5,15 +5,13 @@
 \alias{Music_preferences}
 \title{Music Preference by College Major}
 \format{
-A 4-by-3 table, with a \emph{column} for each major and a \emph{row} for each type of music.
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{data("Music_preferences")
+A 4-by-3 table, with a \emph{column} for each major and a \emph{row} for each type of music.\if{html}{\out{<div class="sourceCode r">}}\preformatted{data("Music_preferences")
 Music_preferences
-#>       Pop Rock Jazz Classic
-#> Psych 150  100  165     130
-#> Econ   50   65   35      10
-#> Law     2   55   40      25
-}\if{html}{\out{</div>}}
+}\if{html}{\out{</div>}}\preformatted{##       Pop Rock Jazz Classic
+## Psych 150  100  165     130
+## Econ   50   65   35      10
+## Law     2   55   40      25
+}
 }
 \description{
 Fictional data.

@@ -5,14 +5,12 @@
 \alias{food_class}
 \title{Classification of Foods}
 \format{
-A 2-by-3 table.
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{data("food_class")
+A 2-by-3 table.\if{html}{\out{<div class="sourceCode r">}}\preformatted{data("food_class")
 food_class
-#>           Soy Milk Meat
-#> Vegan      47    0    0
-#> Not-Vegan   0   12   21
-}\if{html}{\out{</div>}}
+}\if{html}{\out{</div>}}\preformatted{##           Soy Milk Meat
+## Vegan      47    0    0
+## Not-Vegan   0   12   21
+}
 }
 \description{
 Fictional data.

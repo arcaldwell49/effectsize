@@ -10,17 +10,15 @@ A data frame with 1600 rows and 3 variables:
 \item{Diagnosis}{Ground truth}
 \item{Test1}{Results given by the 1st test}
 \item{Test2}{Results given by the 2nd test}
-}
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{data("screening_test")
+}\if{html}{\out{<div class="sourceCode r">}}\preformatted{data("screening_test")
 head(screening_test, n = 5)
-#>   Diagnosis Test1 Test2
-#> 1       Neg "Neg" "Neg"
-#> 2       Neg "Neg" "Neg"
-#> 3       Neg "Neg" "Neg"
-#> 4       Neg "Neg" "Neg"
-#> 5       Neg "Neg" "Neg"
-}\if{html}{\out{</div>}}
+}\if{html}{\out{</div>}}\preformatted{##   Diagnosis Test1 Test2
+## 1       Neg "Neg" "Neg"
+## 2       Neg "Neg" "Neg"
+## 3       Neg "Neg" "Neg"
+## 4       Neg "Neg" "Neg"
+## 5       Neg "Neg" "Neg"
+}
 }
 \description{
 A sample (simulated) dataset, used in tests and some examples.
