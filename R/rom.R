@@ -1,6 +1,7 @@
 #' Ratio of Means
 #'
-#' @description Computes ratio of two means, which is also known as the "response ratio" (RR).
+#' @description Computes ratio of two means, which is also known as the "response ratio" (RR)
+#' and referred to as the Means_Ratio in the output of this function.
 #' Pair with any reported [`stats::t.test()`].
 #'
 #' @param paired If `TRUE`, the values of `x` and `y` are considered as paired.
@@ -18,7 +19,7 @@
 #' which makes this outcome measure symmetric around 0 and
 #' yields a corresponding sampling distribution that is closer to normality.
 #' Hence, this measure cannot be computed when the means have opposite signs.
-#' The RR  is only meant to be used for ratio scale measurements,
+#' The response ratio is only meant to be used for ratio scale measurements,
 #' where both means are positive.
 #'
 #' Unlike other functions in `effectsize`, the response ratio confidence intervals
@@ -27,7 +28,7 @@
 #'
 #' @inheritSection effectsize_CIs CIs and Significance Tests
 #'
-#' @return A data frame with the effect size ( `RR`) and their CIs (`CI_low` and `CI_high`).
+#' @return A data frame with the effect size ( `Means_Ratio`) and their CIs (`CI_low` and `CI_high`).
 #'
 #'
 #' @examples
@@ -127,7 +128,7 @@ rom <- function(x,
     log_val = .logrom_calc(
       paired = TRUE,
       m1 = m1,
-      sd1 = m2,
+      sd1 = sd1,
       n1 = n1,
       m2 = m2,
       sd2 = sd2,
@@ -181,7 +182,7 @@ rom <- function(x,
 
   rom = exp(log_val$log_rom)
 
-  out = data.frame(RR = rom)
+  out = data.frame(Means_Ratio = rom)
   out$ci = ci
 
   out$CI_low <- interval[1]
