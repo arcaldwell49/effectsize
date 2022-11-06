@@ -1,28 +1,25 @@
 #' Ratio of Means
 #'
-#' @description Compute ratio of two means, which is also known as the "response ratio" (RR).
+#' @description Computes ratio of two means, which is also known as the "response ratio" (RR).
 #' Pair with any reported [`stats::t.test()`].
 #'
-#'
-#' @param x,y A numeric vector, or a character name of one in `data`.
-#'   Any missing values (`NA`s) are dropped from the resulting vector.
-#'   `x` can also be a formula (see [`stats::t.test()`]), in which case `y` is
-#'   ignored.
-#' @param alternative a character string specifying the alternative hypothesis;
-#'   Controls the type of CI returned: `"two.sided"` (default, two-sided CI),
-#'   `"greater"` or `"less"` (one-sided CI). Partial matching is allowed (e.g.,
-#'   `"g"`, `"l"`, `"two"`...). See *One-Sided CIs* in [effectsize_CIs].
-#' @param data An optional data frame containing the variables.
 #' @param paired If `TRUE`, the values of `x` and `y` are considered as paired.
 #' The correlation between these variables will affect the CIs.
-#' @param ... Arguments passed to or from other methods. When `x` is a formula,
-#'   these can be `subset` and `na.action`.
-#'
-#' @note The response ratio reported from this function is the bias-corrected estimate (Lajeunesse, 2015).
+#' @param adjust Should the effect size be bias-corrected? Defaults to `TRUE`;
+#'   Advisable for small samples.
+#' @inheritParams chisq_to_phi
+#' @inheritParams cohens_d
+#' @note The bias corrected response ratio reported from this function is derived from Lajeunesse (2015).
 #'
 #' @details
-#' To be added... Unlike other effect sizes, there is no difference between groups
+#'  Unlike other effect sizes, there is no difference between groups
 #' (equality of means) when the response ratio is equal to 1.
+#' The log is taken of the ratio of means,
+#' which makes this outcome measure symmetric around 0 and
+#' yields a corresponding sampling distribution that is closer to normality.
+#' Hence, this measure cannot be computed when the means have opposite signs.
+#' The RR  is only meant to be used for ratio scale measurements,
+#' where both means are positive.
 #'
 #' Unlike other functions in `effectsize`, the response ratio confidence intervals
 #' a calculated using the methods described by Lajeunesse (2011 & 2015) using the
@@ -43,7 +40,7 @@
 #'
 #' Lajeunesse, M. J. (2015). Bias and correction for the log response ratio in ecological meta‐analysis. Ecology, 96(8), 2056-2063. https://doi.org/10.1890/14-2402.1
 #'
-#'
+#' Hedges, L. V., Gurevitch, J., & Curtis, P. S. (1999). The meta-analysis of response ratios in experimental ecology. Ecology, 80(4), 1150–1156. https://doi.org/10.1890/0012-9658(1999)080[1150:TMAORR]2.0.CO;2
 #' @importFrom stats var model.frame
 #' @export
 
@@ -54,6 +51,7 @@ rom <- function(x,
                 alternative = c("two.sided", "less", "greater"),
                 paired = FALSE,
                 verbose = TRUE,
+                adjust = TRUE,
                 ...) {
   alternative <- match.arg(alternative)
 
@@ -134,7 +132,8 @@ rom <- function(x,
       m2 = m2,
       sd2 = sd2,
       n2 = n2,
-      r = r
+      r = r,
+      adjust = adjust
     )
 
   } else { ##------------------------ 2-sample case -------------------------
@@ -160,7 +159,8 @@ rom <- function(x,
       m2 = m2,
       sd2 = sd2,
       n2 = n2,
-      r = NULL
+      r = NULL,
+      adjust = adjust
     )
 
 
@@ -211,7 +211,8 @@ rom <- function(x,
                         m2,
                         sd2,
                         n2,
-                        r = NULL) {
+                        r = NULL,
+                        adjust = TRUE) {
   if (!paired) {
     yi <- log(m1 / m2)
     ### large sample approximation to the sampling variance (does not assume homoscedasticity)
@@ -225,12 +226,14 @@ rom <- function(x,
 
   }
 
+  if(adjust == TRUE){
+    J = 0.5 * (sd1 ^ 2 / (n1 * m1 ^ 2) - sd2 ^ 2 / (n2 * m2 ^ 2))
+    yi = yi + J
 
-  J = 0.5 * (sd1 ^ 2 / (n1 * m1 ^ 2) - sd2 ^ 2 / (n2 * m2 ^ 2))
-  yi = yi + J
+    Jvar = 0.5 * (sd1^4 / (n1^2 * m1^4) - sd2^4 / (n2^2 * m2^4))
+    vi = vi + Jvar
+  }
 
-  Jvar = 0.5 * (sd1^4 / (n1^2 * m1^4) - sd2^4 / (n2^2 * m2^4))
-  vi = vi + Jvar
 
   rval = list(
     log_rom = yi,

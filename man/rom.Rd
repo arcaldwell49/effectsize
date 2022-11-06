@@ -12,38 +12,57 @@ rom(
   alternative = c("two.sided", "less", "greater"),
   paired = FALSE,
   verbose = TRUE,
+  adjust = TRUE,
   ...
 )
 }
 \arguments{
-\item{x, y}{A numeric vector, or a character name of one in \code{data}.
+\item{x}{A numeric vector, or a character name of one in \code{data}.
+Any missing values (\code{NA}s) are dropped from the resulting vector.
+\code{x} can also be a formula (see \code{\link[stats:t.test]{stats::t.test()}}), in which case \code{y} is
+ignored.}
+
+\item{y}{A numeric vector, or a character name of one in \code{data}.
 Any missing values (\code{NA}s) are dropped from the resulting vector.
 \code{x} can also be a formula (see \code{\link[stats:t.test]{stats::t.test()}}), in which case \code{y} is
 ignored.}
 
 \item{data}{An optional data frame containing the variables.}
 
+\item{ci}{Confidence Interval (CI) level}
+
 \item{alternative}{a character string specifying the alternative hypothesis;
-Controls the type of CI returned: \code{"two.sided"} (default, two-sided CI),
-\code{"greater"} or \code{"less"} (one-sided CI). Partial matching is allowed (e.g.,
-\code{"g"}, \code{"l"}, \code{"two"}...). See \emph{One-Sided CIs} in \link{effectsize_CIs}.}
+Controls the type of CI returned: \code{"greater"} (default) or \code{"less"}
+(one-sided CI), or \code{"two.sided"} (default, two-sided CI). Partial matching
+is allowed (e.g., \code{"g"}, \code{"l"}, \code{"two"}...). See \emph{One-Sided CIs} in
+\link{effectsize_CIs}.}
 
 \item{paired}{If \code{TRUE}, the values of \code{x} and \code{y} are considered as paired.
 The correlation between these variables will affect the CIs.}
 
-\item{...}{Arguments passed to or from other methods. When \code{x} is a formula,
-these can be \code{subset} and \code{na.action}.}
+\item{verbose}{Toggle warnings and messages on or off.}
+
+\item{adjust}{Should the effect size be bias-corrected? Defaults to \code{TRUE};
+Advisable for small samples.}
+
+\item{...}{Arguments passed to or from other methods.}
 }
 \value{
 A data frame with the effect size ( \code{RR}) and their CIs (\code{CI_low} and \code{CI_high}).
 }
 \description{
-Compute ratio of two means, which is also known as the "response ratio" (RR).
+Computes ratio of two means, which is also known as the "response ratio" (RR).
 Pair with any reported \code{\link[stats:t.test]{stats::t.test()}}.
 }
 \details{
-To be added... Unlike other effect sizes, there is no difference between groups
+Unlike other effect sizes, there is no difference between groups
 (equality of means) when the response ratio is equal to 1.
+The log is taken of the ratio of means,
+which makes this outcome measure symmetric around 0 and
+yields a corresponding sampling distribution that is closer to normality.
+Hence, this measure cannot be computed when the means have opposite signs.
+The RR  is only meant to be used for ratio scale measurements,
+where both means are positive.
 
 Unlike other functions in \code{effectsize}, the response ratio confidence intervals
 a calculated using the methods described by Lajeunesse (2011 & 2015) using the
@@ -83,4 +102,6 @@ data(mtcars)
 Lajeunesse, M. J. (2011). On the meta‐analysis of response ratios for studies with correlated and multi‐group designs. Ecology, 92(11), 2049-2055 .https://doi.org/10.1890/11-0423.1
 
 Lajeunesse, M. J. (2015). Bias and correction for the log response ratio in ecological meta‐analysis. Ecology, 96(8), 2056-2063. https://doi.org/10.1890/14-2402.1
+
+Hedges, L. V., Gurevitch, J., & Curtis, P. S. (1999). The meta-analysis of response ratios in experimental ecology. Ecology, 80(4), 1150–1156. https://doi.org/10.1890/0012-9658(1999)080\link{1150:TMAORR}2.0.CO;2
 }
